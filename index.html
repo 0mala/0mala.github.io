@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+  <style>
+    .container {
+      width: 40%;
+      margin: auto;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    #player_result {
+      width: 48%;
+      float: left;
+      height: 14vw;
+      background-color: white;
+      font-size: 10vw;
+    }
+
+    #dm_result {
+      width: 48%;
+      float: right;
+      height: 14vw;
+      background-color: white;
+      font-size: 10vw;
+    }
+
+    #pheader {
+      width: 48%;
+      float: left;
+      height: 6vw;
+      background-color: white;
+      font-size: 5vw;
+    }
+
+    #dmheader {
+      width: 48%;
+      float: left;
+      height: 6vw;
+      background-color: white;
+      font-size: 5vw;
+    }
+
+  </style>
+  <div class="container">
+    <div id="pheader">Player</div>
+    <div id="dmheader">DM</div>
+    <div id="player_result"></div>
+    <div id="dm_result"></div>
+  </div>
+
+  <script>
+    document.onkeydown = checkKey;
+
+    function checkKey(e) {
+      e = e || window.event;
+      if (e.keyCode == '81') {
+        fair_gen();
+      }
+
+    function get_rolls() {
+      return [Math.floor((Math.random() * 20) + 1), Math.floor((Math.random() * 20) + 1)];
+    }
+
+    function fair_gen() {
+      nums = get_rolls();
+      document.getElementById("player_result").innerHTML = nums[0];
+      document.getElementById("dm_result").innerHTML = nums[1];
+      big_color();
+    }
+
+    function big_color() {
+      p_roll = document.getElementById("player_result").innerHTML
+      dm_roll = document.getElementById("dm_result").innerHTML
+      if (p_roll > dm_roll) {
+        document.getElementById("player_result").style.backgroundColor = "green";
+        document.getElementById("dm_result").style.backgroundColor = "red";
+
+      } else if (dm_roll > p_roll) {
+        document.getElementById("dm_result").style.backgroundColor = "green";
+        document.getElementById("player_result").style.backgroundColor = "red";
+      } else {
+        document.getElementById("dm_result").style.backgroundColor = "white";
+        document.getElementById("player_result").style.backgroundColor = "white";
+      }
+    }
+
+  </script>
+
+</body>
+
+</html>
+
