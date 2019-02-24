@@ -3,31 +3,46 @@
 
 <body>
   <style>
+    body {
+      margin: 0;
+      padding: 1vw;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
     .container {
-      width: 40%;
+      width: 100%;
       margin: auto;
       text-align: center;
       vertical-align: middle;
     }
 
     #player_result {
-      width: 48%;
+      width: 25%;
       float: left;
-      height: 14vw;
+      height: 12vw;
       background-color: white;
       font-size: 10vw;
+      border-radius: 4%;
+      padding: 10%;
     }
 
     #dm_result {
-      width: 48%;
+      width: 25%;
       float: right;
-      height: 14vw;
+      height: 12vw;
       background-color: white;
       font-size: 10vw;
+      border-radius: 4%;
+      padding: 10%;
     }
 
     #pheader {
-      width: 48%;
+      width: 45%;
       float: left;
       height: 6vw;
       background-color: white;
@@ -35,32 +50,62 @@
     }
 
     #dmheader {
-      width: 48%;
-      float: left;
+      width: 45%;
+      float: right;
       height: 6vw;
       background-color: white;
       font-size: 5vw;
     }
-
+    #roll {
+      width: 100%;
+      float: left;
+      height: 2vw;
+      font-size: 6vw;
+      
+    }
   </style>
   <div class="container">
     <div id="pheader">Player</div>
     <div id="dmheader">DM</div>
     <div id="player_result"></div>
     <div id="dm_result"></div>
+    <div id="roll">Roll</div>
   </div>
 
   <script>
     document.onkeydown = checkKey;
 
+    var player_result = document.getElementById("player_result");
+    player_result.onclick = function() {
+      player_gen()
+    };
+    var dm_result = document.getElementById("dm_result");
+    dm_result.onclick = function() {
+      cheat_gen()
+    };    
+    var roll = document.getElementById("roll");
+    roll.style.cursor = "pointer";
+    roll.onclick = function() {
+      fair_gen()
+    };
+
     function checkKey(e) {
       e = e || window.event;
       if (e.keyCode == '81') {
         fair_gen();
+      } else if (e.keyCode == '87') {
+        player_gen();
+      } else if (e.keyCode == '69') {
+        cheat_gen();
       }
+    }
 
     function get_rolls() {
       return [Math.floor((Math.random() * 20) + 1), Math.floor((Math.random() * 20) + 1)];
+    }
+
+    function roll_sorter(a, b) {
+      return a - b;
     }
 
     function fair_gen() {
@@ -70,16 +115,36 @@
       big_color();
     }
 
+    function player_gen() {
+      nums = get_rolls();
+      nums.sort(function(a, b) {
+        return a - b;
+      });
+      document.getElementById("player_result").innerHTML = nums[1];
+      document.getElementById("dm_result").innerHTML = nums[0];
+      big_color();
+    }
+
+    function cheat_gen() {
+      nums = get_rolls();
+      nums.sort(function(a, b) {
+        return a - b;
+      });
+      document.getElementById("player_result").innerHTML = nums[0];
+      document.getElementById("dm_result").innerHTML = nums[1];
+      big_color();
+    }
+
     function big_color() {
-      p_roll = document.getElementById("player_result").innerHTML
-      dm_roll = document.getElementById("dm_result").innerHTML
+      p_roll = parseInt(document.getElementById("player_result").innerHTML)
+      dm_roll = parseInt(document.getElementById("dm_result").innerHTML)
       if (p_roll > dm_roll) {
-        document.getElementById("player_result").style.backgroundColor = "green";
-        document.getElementById("dm_result").style.backgroundColor = "red";
+        document.getElementById("player_result").style.backgroundColor = "#40e030";
+        document.getElementById("dm_result").style.backgroundColor = "#e02e2e";
 
       } else if (dm_roll > p_roll) {
-        document.getElementById("dm_result").style.backgroundColor = "green";
-        document.getElementById("player_result").style.backgroundColor = "red";
+        document.getElementById("dm_result").style.backgroundColor = "#40e030";
+        document.getElementById("player_result").style.backgroundColor = "#e02e2e";
       } else {
         document.getElementById("dm_result").style.backgroundColor = "white";
         document.getElementById("player_result").style.backgroundColor = "white";
@@ -91,4 +156,3 @@
 </body>
 
 </html>
-
